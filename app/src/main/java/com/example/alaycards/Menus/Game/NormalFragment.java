@@ -74,127 +74,29 @@ public class NormalFragment extends EasyFragment {
         imageViews.add(eleven);
         imageViews.add(twelve);
 
-        one.setOnClickListener(v -> {
-            one.setImageResource(cards.get(0));
-            if (selectedItem == null) {
-                selectedItem = one;
-                selectedItemDrawableID = cards.get(0);
-                return;
-            }
-            compare(one, view);
-        });
-
-        two.setOnClickListener(v -> {
-            two.setImageResource(cards.get(1));
-            if (selectedItem == null) {
-                selectedItem = two;
-                selectedItemDrawableID = cards.get(1);
-                return;
-            }
-            compare(two, view);
-        });
-
-        three.setOnClickListener(v -> {
-            three.setImageResource(cards.get(2));
-            if (selectedItem == null) {
-                selectedItem = three;
-                selectedItemDrawableID = cards.get(2);
-                return;
-            }
-            compare(three, view);
-        });
-
-        four.setOnClickListener(v -> {
-            four.setImageResource(cards.get(3));
-            if (selectedItem == null) {
-                selectedItem = four;
-                selectedItemDrawableID = cards.get(3);
-                return;
-            }
-            compare(four, view);
-        });
-
-        five.setOnClickListener(v -> {
-            five.setImageResource(cards.get(4));
-            if (selectedItem == null) {
-                selectedItem = five;
-                selectedItemDrawableID = cards.get(4);
-                return;
-            }
-            compare(five, view);
-        });
-
-        six.setOnClickListener(v -> {
-            six.setImageResource(cards.get(5));
-            if (selectedItem == null) {
-                selectedItem = six;
-                selectedItemDrawableID = cards.get(5);
-                return;
-            }
-            compare(six, view);
-        });
-
-        seven.setOnClickListener(v -> {
-            seven.setImageResource(cards.get(6));
-            if (selectedItem == null) {
-                selectedItem = seven;
-                selectedItemDrawableID = cards.get(6);
-                return;
-            }
-            compare(seven, view);
-        });
-
-        eight.setOnClickListener(v -> {
-            eight.setImageResource(cards.get(7));
-            if (selectedItem == null) {
-                selectedItem = eight;
-                selectedItemDrawableID = cards.get(7);
-                return;
-            }
-            compare(eight, view);
-        });
-
-        nine.setOnClickListener(v -> {
-            nine.setImageResource(cards.get(8));
-            if (selectedItem == null) {
-                selectedItem = nine;
-                selectedItemDrawableID = cards.get(8);
-                return;
-            }
-            compare(nine, view);
-        });
-
-        ten.setOnClickListener(v -> {
-            ten.setImageResource(cards.get(9));
-            if (selectedItem == null) {
-                selectedItem = ten;
-                selectedItemDrawableID = cards.get(9);
-                return;
-            }
-            compare(ten, view);
-        });
-
-        eleven.setOnClickListener(v -> {
-            eleven.setImageResource(cards.get(10));
-            if (selectedItem == null) {
-                selectedItem = eleven;
-                selectedItemDrawableID = cards.get(10);
-                return;
-            }
-            compare(eleven, view);
-        });
-
-        twelve.setOnClickListener(v -> {
-            twelve.setImageResource(cards.get(11));
-            if (selectedItem == null) {
-                selectedItem = twelve;
-                selectedItemDrawableID = cards.get(11);
-                return;
-            }
-            compare(twelve, view);
-        });
-
         generateItems();
+
+        for (int i = 0; i < imageViews.size(); i++) {
+            ImageView card = imageViews.get(i);
+            if(card == null)
+                return;
+            int finalI = i;
+            int finalI1 = i;
+
+            card.setOnClickListener(v -> {
+                if(validating)
+                    return;
+                if(selectedItem == card)
+                    return;
+                card.setImageResource(cards.get(finalI));
+                if (selectedItem == null) {
+                    selectedItem = card;
+                    selectedItemDrawableID = cards.get(finalI);
+                    return;
+                }
+                compare(finalI1, view);
+            });
+        }
     }
 
     @Override
@@ -226,25 +128,27 @@ public class NormalFragment extends EasyFragment {
     }
 
     @Override
-    protected void compare(ImageView toCompare, View view) {
-        Drawable drawable = toCompare.getDrawable();
-        Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
-        if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
-            toCompare.setEnabled(false);
-            selectedItem.setEnabled(false);
-            selectedItem = null;
-            Toast.makeText(getContext(), "You found a match!", Toast.LENGTH_SHORT).show();
-            if(isFinished()) {
-                view.findViewById(R.id.normal_complete).setVisibility(View.VISIBLE);
-                countDownTimer.cancel();
-            }
-        } else {
-            view.postDelayed(() -> {
+    protected void compare(int index, View view) {
+        validating = true;
+        view.postDelayed(() -> {
+            ImageView toCompare = imageViews.get(index);
+            Drawable drawable = toCompare.getDrawable();
+            Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
+            if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
+                Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
+                toCompare.setEnabled(false);
+                selectedItem.setEnabled(false);
+                if (isFinished()) {
+                    view.findViewById(R.id.normal_complete).setVisibility(View.VISIBLE);
+                    countDownTimer.cancel();
+                }
+            } else {
                 toCompare.setImageResource(R.drawable.card);
                 selectedItem.setImageResource(R.drawable.card);
-                selectedItem = null;
-            }, 500);
-        }
+            }
+            selectedItem = null;
+            validating = false;
+        }, 750);
     }
 
     @Override

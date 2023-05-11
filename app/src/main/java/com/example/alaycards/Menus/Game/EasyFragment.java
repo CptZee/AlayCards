@@ -8,6 +8,7 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +30,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +49,7 @@ public class EasyFragment extends Fragment {
     protected ImageView selectedItem;
     protected int selectedItemDrawableID;
     protected List<Integer> cards;
+    protected boolean validating = false;
     protected final List<ImageView> imageViews = new ArrayList<>();
 
     @Override
@@ -87,67 +88,29 @@ public class EasyFragment extends Fragment {
         imageViews.add(five);
         imageViews.add(six);
 
-        one.setOnClickListener(v -> {
-            one.setImageResource(cards.get(0));
-            if (selectedItem == null) {
-                selectedItem = one;
-                selectedItemDrawableID = cards.get(0);
-                return;
-            }
-            compare(one, view);
-        });
-
-        two.setOnClickListener(v -> {
-            two.setImageResource(cards.get(1));
-            if (selectedItem == null) {
-                selectedItem = two;
-                selectedItemDrawableID = cards.get(1);
-                return;
-            }
-            compare(two, view);
-        });
-
-        three.setOnClickListener(v -> {
-            three.setImageResource(cards.get(2));
-            if (selectedItem == null) {
-                selectedItem = three;
-                selectedItemDrawableID = cards.get(2);
-                return;
-            }
-            compare(three, view);
-        });
-
-        four.setOnClickListener(v -> {
-            four.setImageResource(cards.get(3));
-            if (selectedItem == null) {
-                selectedItem = four;
-                selectedItemDrawableID = cards.get(3);
-                return;
-            }
-            compare(four, view);
-        });
-
-        five.setOnClickListener(v -> {
-            five.setImageResource(cards.get(4));
-            if (selectedItem == null) {
-                selectedItem = five;
-                selectedItemDrawableID = cards.get(4);
-                return;
-            }
-            compare(five, view);
-        });
-
-        six.setOnClickListener(v -> {
-            six.setImageResource(cards.get(5));
-            if (selectedItem == null) {
-                selectedItem = six;
-                selectedItemDrawableID = cards.get(5);
-                return;
-            }
-            compare(six, view);
-        });
-
         generateItems();
+
+        for (int i = 0; i < imageViews.size(); i++) {
+            ImageView card = imageViews.get(i);
+            if(card == null)
+                return;
+            int finalI = i;
+            int finalI1 = i;
+
+            card.setOnClickListener(v -> {
+                if(validating)
+                    return;
+                if(selectedItem == card)
+                    return;
+                card.setImageResource(cards.get(finalI));
+                if (selectedItem == null) {
+                    selectedItem = card;
+                    selectedItemDrawableID = cards.get(finalI);
+                    return;
+                }
+                compare(finalI1, view);
+            });
+        }
     }
 
     @Override
@@ -190,25 +153,27 @@ public class EasyFragment extends Fragment {
         countDownTimer.start();
     }
 
-    protected void compare(ImageView toCompare, View view) {
-        Drawable drawable = toCompare.getDrawable();
-        Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
-        if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
-            toCompare.setEnabled(false);
-            selectedItem.setEnabled(false);
-            selectedItem = null;
-            Toast.makeText(getContext(), "You found a match!", Toast.LENGTH_SHORT).show();
-            if(isFinished()) {
-                view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE);
-                countDownTimer.cancel();
-            }
-        } else {
-            view.postDelayed(() -> {
+    protected void compare(int index, View view) {
+        validating = true;
+        view.postDelayed(() -> {
+            ImageView toCompare = imageViews.get(index);
+            Drawable drawable = toCompare.getDrawable();
+            Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
+            if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
+                Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
+                toCompare.setEnabled(false);
+                selectedItem.setEnabled(false);
+                if (isFinished()) {
+                    view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE);
+                    countDownTimer.cancel();
+                }
+            } else {
                 toCompare.setImageResource(R.drawable.card);
                 selectedItem.setImageResource(R.drawable.card);
-                selectedItem = null;
-            }, 500);
-        }
+            }
+            selectedItem = null;
+            validating = false;
+        }, 750);
     }
 
     protected boolean isFinished(){

@@ -82,167 +82,53 @@ public class HardFragment extends EasyFragment {
         imageViews.add(fifteen);
         imageViews.add(sixteen);
 
-        one.setOnClickListener(v -> {
-            one.setImageResource(cards.get(0));
-            if (selectedItem == null) {
-                selectedItem = one;
-                selectedItemDrawableID = cards.get(0);
-                return;
-            }
-            compare(one, view);
-        });
-
-        two.setOnClickListener(v -> {
-            two.setImageResource(cards.get(1));
-            if (selectedItem == null) {
-                selectedItem = two;
-                selectedItemDrawableID = cards.get(1);
-                return;
-            }
-            compare(two, view);
-        });
-
-        three.setOnClickListener(v -> {
-            three.setImageResource(cards.get(2));
-            if (selectedItem == null) {
-                selectedItem = three;
-                selectedItemDrawableID = cards.get(2);
-                return;
-            }
-            compare(three, view);
-        });
-
-        four.setOnClickListener(v -> {
-            four.setImageResource(cards.get(3));
-            if (selectedItem == null) {
-                selectedItem = four;
-                selectedItemDrawableID = cards.get(3);
-                return;
-            }
-            compare(four, view);
-        });
-
-        five.setOnClickListener(v -> {
-            five.setImageResource(cards.get(4));
-            if (selectedItem == null) {
-                selectedItem = five;
-                selectedItemDrawableID = cards.get(4);
-                return;
-            }
-            compare(five, view);
-        });
-
-        six.setOnClickListener(v -> {
-            six.setImageResource(cards.get(5));
-            if (selectedItem == null) {
-                selectedItem = six;
-                selectedItemDrawableID = cards.get(5);
-                return;
-            }
-            compare(six, view);
-        });
-
-        seven.setOnClickListener(v -> {
-            seven.setImageResource(cards.get(6));
-            if (selectedItem == null) {
-                selectedItem = seven;
-                selectedItemDrawableID = cards.get(6);
-                return;
-            }
-            compare(seven, view);
-        });
-
-        eight.setOnClickListener(v -> {
-            eight.setImageResource(cards.get(7));
-            if (selectedItem == null) {
-                selectedItem = eight;
-                selectedItemDrawableID = cards.get(7);
-                return;
-            }
-            compare(eight, view);
-        });
-
-        nine.setOnClickListener(v -> {
-            nine.setImageResource(cards.get(8));
-            if (selectedItem == null) {
-                selectedItem = nine;
-                selectedItemDrawableID = cards.get(8);
-                return;
-            }
-            compare(nine, view);
-        });
-
-        ten.setOnClickListener(v -> {
-            ten.setImageResource(cards.get(9));
-            if (selectedItem == null) {
-                selectedItem = ten;
-                selectedItemDrawableID = cards.get(9);
-                return;
-            }
-            compare(ten, view);
-        });
-
-        eleven.setOnClickListener(v -> {
-            eleven.setImageResource(cards.get(10));
-            if (selectedItem == null) {
-                selectedItem = eleven;
-                selectedItemDrawableID = cards.get(10);
-                return;
-            }
-            compare(eleven, view);
-        });
-
-        twelve.setOnClickListener(v -> {
-            twelve.setImageResource(cards.get(11));
-            if (selectedItem == null) {
-                selectedItem = twelve;
-                selectedItemDrawableID = cards.get(11);
-                return;
-            }
-            compare(twelve, view);
-        });
-
-        thirteen.setOnClickListener(v -> {
-            thirteen.setImageResource(cards.get(12));
-            if (selectedItem == null) {
-                selectedItem = thirteen;
-                selectedItemDrawableID = cards.get(12);
-                return;
-            }
-            compare(thirteen, view);
-        });
-
-        fourteen.setOnClickListener(v -> {
-            fourteen.setImageResource(cards.get(13));
-            if (selectedItem == null) {
-                selectedItem = fourteen;
-                selectedItemDrawableID = cards.get(13);
-                return;
-            }
-            compare(fourteen, view);
-        });
-
-        fifteen.setOnClickListener(v -> {
-            fifteen.setImageResource(cards.get(14));
-            if (selectedItem == null) {
-                selectedItem = fifteen;
-                selectedItemDrawableID = cards.get(14);
-                return;
-            }
-            compare(fifteen, view);
-        });
-
-        sixteen.setOnClickListener(v -> {
-            sixteen.setImageResource(cards.get(15));
-            if (selectedItem == null) {
-                selectedItem = sixteen;
-                selectedItemDrawableID = cards.get(15);
-                return;
-            }
-            compare(sixteen, view);
-        });
-
         generateItems();
+
+        for (int i = 0; i < imageViews.size(); i++) {
+            ImageView card = imageViews.get(i);
+            if(card == null)
+                return;
+            int finalI = i;
+            int finalI1 = i;
+
+            card.setOnClickListener(v -> {
+                if(validating)
+                    return;
+                if(selectedItem == card)
+                    return;
+                card.setImageResource(cards.get(finalI));
+                if (selectedItem == null) {
+                    selectedItem = card;
+                    selectedItemDrawableID = cards.get(finalI);
+                    return;
+                }
+                compare(finalI1, view);
+            });
+        }
+    }
+
+    @Override
+    protected void compare(int index, View view) {
+        validating = true;
+        view.postDelayed(() -> {
+            ImageView toCompare = imageViews.get(index);
+            Drawable drawable = toCompare.getDrawable();
+            Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
+            if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
+                Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
+                toCompare.setEnabled(false);
+                selectedItem.setEnabled(false);
+                if (isFinished()) {
+                    view.findViewById(R.id.hard_complete).setVisibility(View.VISIBLE);
+                    countDownTimer.cancel();
+                }
+            } else {
+                toCompare.setImageResource(R.drawable.card);
+                selectedItem.setImageResource(R.drawable.card);
+            }
+            selectedItem = null;
+            validating = false;
+        }, 750);
     }
 
     @Override
@@ -271,28 +157,6 @@ public class HardFragment extends EasyFragment {
             }
         };
         countDownTimer.start();
-    }
-
-    @Override
-    protected void compare(ImageView toCompare, View view) {
-        Drawable drawable = toCompare.getDrawable();
-        Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
-        if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
-            toCompare.setEnabled(false);
-            selectedItem.setEnabled(false);
-            selectedItem = null;
-            Toast.makeText(getContext(), "You found a match!", Toast.LENGTH_SHORT).show();
-            if(isFinished()) {
-                view.findViewById(R.id.hard_complete).setVisibility(View.VISIBLE);
-                countDownTimer.cancel();
-            }
-        } else {
-            view.postDelayed(() -> {
-                toCompare.setImageResource(R.drawable.card);
-                selectedItem.setImageResource(R.drawable.card);
-                selectedItem = null;
-            }, 500);
-        }
     }
 
     @Override
