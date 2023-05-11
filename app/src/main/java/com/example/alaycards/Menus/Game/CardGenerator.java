@@ -1,5 +1,7 @@
 package com.example.alaycards.Menus.Game;
 
+import android.util.Log;
+
 import com.example.alaycards.R;
 
 import java.util.ArrayList;
@@ -20,9 +22,6 @@ public class CardGenerator {
             list.add(number);
         }
 
-        // Shuffle the list
-        Collections.shuffle(list);
-
         // Create a separate list to store the duplicates
         List<Integer> duplicates = new ArrayList<>();
 
@@ -33,6 +32,9 @@ public class CardGenerator {
 
         // Add the duplicates to the original list
         list.addAll(duplicates);
+
+        //Shuffle the list to finalize
+        Collections.shuffle(list);
 
         return list;
     }
@@ -49,9 +51,6 @@ public class CardGenerator {
             list.add(number);
         }
 
-        // Shuffle the list
-        Collections.shuffle(list);
-
         // Create a separate list to store the duplicates
         List<Integer> duplicates = new ArrayList<>();
 
@@ -62,6 +61,9 @@ public class CardGenerator {
 
         // Add the duplicates to the original list
         list.addAll(duplicates);
+
+        //Shuffle the list to finalize
+        Collections.shuffle(list);
 
         return list;
     }
@@ -78,9 +80,6 @@ public class CardGenerator {
             list.add(number);
         }
 
-        // Shuffle the list
-        Collections.shuffle(list);
-
         // Create a separate list to store the duplicates
         List<Integer> duplicates = new ArrayList<>();
 
@@ -92,6 +91,9 @@ public class CardGenerator {
         // Add the duplicates to the original list
         list.addAll(duplicates);
 
+        //Shuffle the list to finalize
+        Collections.shuffle(list);
+
         return list;
     }
 
@@ -101,27 +103,35 @@ public class CardGenerator {
             switch (i) {
                 case 0:
                     list.add(R.drawable.apolaki);
+                    Log.i("CardHelper", "Apolaki was selected");
                     break;
                 case 1:
                     list.add(R.drawable.bakunawa);
+                    Log.i("CardHelper", "Bakunawa was selected");
                     break;
                 case 2:
                     list.add(R.drawable.bathala);
+                    Log.i("CardHelper", "Bathala was selected");
                     break;
                 case 3:
                     list.add(R.drawable.kapre);
+                    Log.i("CardHelper", "Kapre was selected");
                     break;
                 case 4:
                     list.add(R.drawable.mayari);
+                    Log.i("CardHelper", "Mayari was selected");
                     break;
                 case 5:
                     list.add(R.drawable.nuno);
+                    Log.i("CardHelper", "Nuno was selected");
                     break;
                 case 6:
                     list.add(R.drawable.sarimanok);
+                    Log.i("CardHelper", "Sarimanok was selected");
                     break;
                 case 7:
                     list.add(R.drawable.tikbalang);
+                    Log.i("CardHelper", "Tikbalang was selected");
                     break;
             }
         }
