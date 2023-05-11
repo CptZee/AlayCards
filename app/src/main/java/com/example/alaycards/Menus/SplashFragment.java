@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.alaycards.Data.Helper.ScoreHelper;
+import com.example.alaycards.Data.Score;
 import com.example.alaycards.R;
 
 public class SplashFragment extends Fragment {
@@ -22,5 +24,7 @@ public class SplashFragment extends Fragment {
                     .replace(R.id.main_container, new MainFragment(), "home")
                     .commit();
         }, 2000);
+
+        ScoreHelper.get(getContext()).onCreate(ScoreHelper.get(getContext()).getWritableDatabase());
     }
 }
