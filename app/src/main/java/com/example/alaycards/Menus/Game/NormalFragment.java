@@ -154,8 +154,8 @@ public class NormalFragment extends EasyFragment {
                 Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
-                showVictoryDialog();
                 if (isFinished()) {
+                    showVictoryDialog();
                     view.findViewById(R.id.normal_complete).setVisibility(View.VISIBLE);
                     countDownTimer.cancel();
                 }

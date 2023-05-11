@@ -255,7 +255,7 @@ public class EasyFragment extends Fragment {
         new AlertDialog.Builder(getContext())
                 .setMessage("YOU WON!")
                 .setPositiveButton("Back to Main Menu", (ignore, ignore2) ->
-                        EasyFragment.returnToMenu((AppCompatActivity) getActivity(), getView())
+                        finish(getView())
                 )
                 .setNegativeButton("Continue", (ignore, ignore2) -> {
                 })
