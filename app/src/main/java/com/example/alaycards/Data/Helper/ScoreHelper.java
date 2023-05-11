@@ -22,8 +22,15 @@ import java.util.Locale;
 
 public class ScoreHelper extends SQLiteOpenHelper {
 
-    public ScoreHelper(@Nullable Context context) {
+    private ScoreHelper(@Nullable Context context) {
         super(context, "db_AlayCards.db", null, 1);
+    }
+
+    private static ScoreHelper instance;
+    public static ScoreHelper get(Context context){
+        if(instance == null)
+            instance = new ScoreHelper(context);
+        return instance;
     }
 
     private static final String TABLENAME = "tbl_scores";
@@ -121,7 +128,7 @@ public class ScoreHelper extends SQLiteOpenHelper {
         if(data.getDate() != null)
             contentValues.put("date", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(data.getDate()));
         if(data.getRemainingTime() != 0)
-            contentValues.put("type", data.getRemainingTime());
+            contentValues.put("remainingTime", data.getRemainingTime());
         contentValues.put("archived", 0);
         return contentValues;
     }
