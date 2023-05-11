@@ -8,14 +8,14 @@ import android.os.IBinder;
 import com.example.alaycards.R;
 
 public class MenuMusicService extends Service {
-
     private MediaPlayer mediaPlayer;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Create and initialize the MediaPlayer
         mediaPlayer = MediaPlayer.create(this, R.raw.fx_menu);
+        mediaPlayer.setLooping(false);
+        mediaPlayer.setOnCompletionListener(mp -> mediaPlayer.start());
     }
 
     @Override
