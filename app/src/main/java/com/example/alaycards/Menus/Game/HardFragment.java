@@ -63,7 +63,7 @@ public class HardFragment extends EasyFragment {
         );
 
         view.findViewById(R.id.hard_return).setOnClickListener(v ->
-                EasyFragment.returnToMenu((AppCompatActivity) getActivity())
+                EasyFragment.returnToMenu((AppCompatActivity) getActivity(), view)
         );
         //Countdown code
         timer = view.findViewById(R.id.hard_timer);
@@ -101,8 +101,7 @@ public class HardFragment extends EasyFragment {
                     return;
                 if(selectedItem == card)
                     return;
-                mediaPlayer = MediaPlayer.create(getContext(), R.raw.fx_card);
-                mediaPlayer.start();
+                MediaPlayer.create(getContext(), R.raw.fx_card).start();
                 card.postDelayed(()->{
                     card.setImageResource(cards.get(finalI));
                     if (selectedItem == null) {
@@ -130,6 +129,7 @@ public class HardFragment extends EasyFragment {
                 if (isFinished()) {
                     view.findViewById(R.id.hard_complete).setVisibility(View.VISIBLE);
                     countDownTimer.cancel();
+                    showVictoryDialog();
                 }
             } else {
                 toCompare.setImageResource(R.drawable.card);
@@ -143,7 +143,7 @@ public class HardFragment extends EasyFragment {
     @Override
     protected void generateItems() {
         cards = CardGenerator.convertToCards(CardGenerator.generateEasy());
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 16; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
             imageViews.get(i).setEnabled(true);
         }
@@ -158,12 +158,19 @@ public class HardFragment extends EasyFragment {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
+                if(seconds <= 15)
+                    timer.setTextColor(Color.parseColor("#FF0000"));
             }
 
             @Override
             public void onFinish() {
                 timer.setText("GAME OVER!");
                 timer.setTextColor(Color.parseColor("#FF0000"));
+                for (ImageView card : imageViews) {
+                    if (card != null)
+                        card.setEnabled(false);
+                }
+                showGameOverDialog();
             }
         };
         countDownTimer.start();
@@ -187,7 +194,7 @@ public class HardFragment extends EasyFragment {
 
         ScoreHelper.get(getContext()).insert(score);
 
-        returnToMenu((AppCompatActivity) getActivity());
+        returnToMenu((AppCompatActivity) getActivity(), view);
         Snackbar.make(view.findViewById(R.id.hard_complete), completeMessage, Snackbar.LENGTH_SHORT).show();
     }
 }

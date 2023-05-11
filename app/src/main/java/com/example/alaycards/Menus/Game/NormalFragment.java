@@ -59,7 +59,7 @@ public class NormalFragment extends EasyFragment {
         );
 
         view.findViewById(R.id.normal_return).setOnClickListener(v ->
-                EasyFragment.returnToMenu((AppCompatActivity) getActivity())
+                EasyFragment.returnToMenu((AppCompatActivity) getActivity(), view)
         );
         //Countdown code
         timer = view.findViewById(R.id.normal_timer);
@@ -93,8 +93,7 @@ public class NormalFragment extends EasyFragment {
                     return;
                 if(selectedItem == card)
                     return;
-                mediaPlayer = MediaPlayer.create(getContext(), R.raw.fx_card);
-                mediaPlayer.start();
+                MediaPlayer.create(getContext(), R.raw.fx_card).start();
                 card.postDelayed(()->{
                     card.setImageResource(cards.get(finalI));
                     if (selectedItem == null) {
@@ -111,7 +110,7 @@ public class NormalFragment extends EasyFragment {
     @Override
     protected void generateItems() {
         cards = CardGenerator.convertToCards(CardGenerator.generateEasy());
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
             imageViews.get(i).setEnabled(true);
         }
@@ -126,12 +125,19 @@ public class NormalFragment extends EasyFragment {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
+                if(seconds <= 15)
+                    timer.setTextColor(Color.parseColor("#FF0000"));
             }
 
             @Override
             public void onFinish() {
                 timer.setText("GAME OVER!");
                 timer.setTextColor(Color.parseColor("#FF0000"));
+                for (ImageView card : imageViews) {
+                    if (card != null)
+                        card.setEnabled(false);
+                }
+                showGameOverDialog();
             }
         };
         countDownTimer.start();
@@ -148,6 +154,7 @@ public class NormalFragment extends EasyFragment {
                 Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
+                showVictoryDialog();
                 if (isFinished()) {
                     view.findViewById(R.id.normal_complete).setVisibility(View.VISIBLE);
                     countDownTimer.cancel();
@@ -179,7 +186,7 @@ public class NormalFragment extends EasyFragment {
 
         ScoreHelper.get(getContext()).insert(score);
 
-        returnToMenu((AppCompatActivity) getActivity());
+        returnToMenu((AppCompatActivity) getActivity(), view);
         Snackbar.make(view.findViewById(R.id.normal_complete), completeMessage, Snackbar.LENGTH_SHORT).show();
     }
 }

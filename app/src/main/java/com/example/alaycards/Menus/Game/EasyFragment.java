@@ -1,5 +1,6 @@
 package com.example.alaycards.Menus.Game;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -10,7 +11,6 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ import androidx.annotation.ContentView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -30,7 +31,6 @@ import com.example.alaycards.Menus.MainFragment;
 import com.example.alaycards.R;
 import com.example.alaycards.Services.EasyLevelMusicService;
 import com.example.alaycards.Services.HardLevelMusicService;
-import com.example.alaycards.Services.MenuMusicService;
 import com.example.alaycards.Services.NormalLevelMusicService;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -48,7 +48,6 @@ public class EasyFragment extends Fragment {
     public EasyFragment(@LayoutRes int contentLayoutId) {
         super(contentLayoutId);
     }
-    protected MediaPlayer mediaPlayer;
 
     protected TextView timer;
     protected CountDownTimer countDownTimer;
@@ -83,7 +82,7 @@ public class EasyFragment extends Fragment {
         );
 
         view.findViewById(R.id.easy_return).setOnClickListener(v ->
-                EasyFragment.returnToMenu((AppCompatActivity) getActivity())
+                EasyFragment.returnToMenu((AppCompatActivity) getActivity(), view)
         );
 
         //Countdown code
@@ -102,19 +101,18 @@ public class EasyFragment extends Fragment {
 
         for (int i = 0; i < imageViews.size(); i++) {
             ImageView card = imageViews.get(i);
-            if(card == null)
+            if (card == null)
                 return;
             int finalI = i;
             int finalI1 = i;
 
             card.setOnClickListener(v -> {
-                if(validating)
+                if (validating)
                     return;
-                if(selectedItem == card)
+                if (selectedItem == card)
                     return;
-                mediaPlayer = MediaPlayer.create(getContext(), R.raw.fx_card);
-                mediaPlayer.start();
-                card.postDelayed(()->{
+                MediaPlayer.create(getContext(), R.raw.fx_card).start();
+                card.postDelayed(() -> {
                     card.setImageResource(cards.get(finalI));
                     if (selectedItem == null) {
                         selectedItem = card;
@@ -135,13 +133,16 @@ public class EasyFragment extends Fragment {
         }
     }
 
-    protected static void returnToMenu(AppCompatActivity activity) {
-        activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, new MainFragment(), "home")
-                .commit();
-        activity.stopService(new Intent(activity, EasyLevelMusicService.class));
-        activity.stopService(new Intent(activity, NormalLevelMusicService.class));
-        activity.stopService(new Intent(activity, HardLevelMusicService.class));
+    protected static void returnToMenu(AppCompatActivity activity, View view) {
+        MediaPlayer.create(activity, R.raw.fx_button).start();
+        view.postDelayed(()->{
+            activity.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_container, new MainFragment(), "home")
+                    .commit();
+            activity.stopService(new Intent(activity, EasyLevelMusicService.class));
+            activity.stopService(new Intent(activity, NormalLevelMusicService.class));
+            activity.stopService(new Intent(activity, HardLevelMusicService.class));
+        }, 300);
     }
 
     protected void generateItems() {
@@ -160,12 +161,19 @@ public class EasyFragment extends Fragment {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
+                if(seconds <= 15)
+                    timer.setTextColor(Color.parseColor("#FF0000"));
             }
 
             @Override
             public void onFinish() {
                 timer.setText("GAME OVER!");
                 timer.setTextColor(Color.parseColor("#FF0000"));
+                for (ImageView card : imageViews) {
+                    if (card != null)
+                        card.setEnabled(false);
+                }
+                showGameOverDialog();
             }
         };
         countDownTimer.start();
@@ -184,6 +192,7 @@ public class EasyFragment extends Fragment {
                 if (isFinished()) {
                     view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE);
                     countDownTimer.cancel();
+                    showVictoryDialog();
                 }
             } else {
                 toCompare.setImageResource(R.drawable.card);
@@ -194,8 +203,8 @@ public class EasyFragment extends Fragment {
         }, 750);
     }
 
-    protected boolean isFinished(){
-        for(ImageView card : imageViews){
+    protected boolean isFinished() {
+        for (ImageView card : imageViews) {
             Drawable drawable = card.getDrawable();
             Drawable originalDrawable = getResources().getDrawable(R.drawable.card);
             if (drawable.getConstantState().equals(originalDrawable.getConstantState()))
@@ -204,7 +213,7 @@ public class EasyFragment extends Fragment {
         return true;
     }
 
-    protected void finish(View view){
+    protected void finish(View view) {
         SpannableString completeMessage = new SpannableString("Easy level completed!");
         completeMessage.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, completeMessage.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
@@ -221,7 +230,36 @@ public class EasyFragment extends Fragment {
 
         ScoreHelper.get(getContext()).insert(score);
 
-        returnToMenu((AppCompatActivity) getActivity());
+        returnToMenu((AppCompatActivity) getActivity(), view);
         Snackbar.make(view.findViewById(R.id.easy_complete), completeMessage, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    protected void showGameOverDialog() {
+        MediaPlayer.create(getContext(), R.raw.fx_lose).start();
+        new AlertDialog.Builder(getContext())
+                .setMessage("GAME OVER!")
+                .setPositiveButton("Try Again", (ignore, ignore2) -> {
+                    timer.setTextColor(R.color.black);
+                    generateItems();
+                    startCountdown();
+                })
+                .setNegativeButton("Back to Main Menu", (ignore, ignore2) ->
+                        EasyFragment.returnToMenu((AppCompatActivity) getActivity(), getView()))
+                .create()
+                .show();
+    }
+
+    protected void showVictoryDialog() {
+        MediaPlayer.create(getContext(), R.raw.fx_win).start();
+        new AlertDialog.Builder(getContext())
+                .setMessage("YOU WON!")
+                .setPositiveButton("Back to Main Menu", (ignore, ignore2) ->
+                        EasyFragment.returnToMenu((AppCompatActivity) getActivity(), getView())
+                )
+                .setNegativeButton("Continue", (ignore, ignore2) -> {
+                })
+                .create()
+                .show();
     }
 }
