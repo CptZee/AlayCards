@@ -27,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private void stopServices(){
+        stopService(new Intent(this, MenuMusicService.class));
+        stopService(new Intent(this, EasyLevelMusicService.class));
+        stopService(new Intent(this, NormalLevelMusicService.class));
+        stopService(new Intent(this, HardLevelMusicService.class));
+    }
+
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
@@ -46,11 +53,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        stopServices();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, MenuMusicService.class));
-        stopService(new Intent(this, EasyLevelMusicService.class));
-        stopService(new Intent(this, NormalLevelMusicService.class));
-        stopService(new Intent(this, HardLevelMusicService.class));
+        stopServices();
     }
 }
