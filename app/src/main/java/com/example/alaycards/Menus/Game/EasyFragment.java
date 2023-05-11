@@ -31,7 +31,7 @@ public class EasyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(this instanceof NormalFragment || this instanceof HardFragment)
+        if (this instanceof NormalFragment || this instanceof HardFragment)
             return;
         view.findViewById(R.id.easy_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.easy_complete).setOnClickListener(v -> {
@@ -51,7 +51,7 @@ public class EasyFragment extends Fragment {
         );
     }
 
-    public static void returnToMenu(AppCompatActivity activity) {
+    protected static void returnToMenu(AppCompatActivity activity) {
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, new MainFragment(), "home")
                 .commit();
