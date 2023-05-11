@@ -3,6 +3,7 @@ package com.example.alaycards.Menus.Game;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Layout;
@@ -47,6 +48,7 @@ public class EasyFragment extends Fragment {
     public EasyFragment(@LayoutRes int contentLayoutId) {
         super(contentLayoutId);
     }
+    protected MediaPlayer mediaPlayer;
 
     protected TextView timer;
     protected CountDownTimer countDownTimer;
@@ -110,13 +112,17 @@ public class EasyFragment extends Fragment {
                     return;
                 if(selectedItem == card)
                     return;
-                card.setImageResource(cards.get(finalI));
-                if (selectedItem == null) {
-                    selectedItem = card;
-                    selectedItemDrawableID = cards.get(finalI);
-                    return;
-                }
-                compare(finalI1, view);
+                mediaPlayer = MediaPlayer.create(getContext(), R.raw.fx_card);
+                mediaPlayer.start();
+                card.postDelayed(()->{
+                    card.setImageResource(cards.get(finalI));
+                    if (selectedItem == null) {
+                        selectedItem = card;
+                        selectedItemDrawableID = cards.get(finalI);
+                        return;
+                    }
+                    compare(finalI1, view);
+                }, 300);
             });
         }
     }
