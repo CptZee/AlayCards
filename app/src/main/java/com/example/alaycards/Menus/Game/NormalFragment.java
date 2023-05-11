@@ -110,9 +110,10 @@ public class NormalFragment extends EasyFragment {
 
     @Override
     protected void generateItems() {
-        cards = CardGenerator.convertToCards(CardGenerator.generateNormal());
-        for (int i = 0; i < 12; i++) {
+        cards = CardGenerator.convertToCards(CardGenerator.generateEasy());
+        for (int i = 0; i < 6; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
+            imageViews.get(i).setEnabled(true);
         }
     }
 

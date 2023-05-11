@@ -142,9 +142,10 @@ public class HardFragment extends EasyFragment {
 
     @Override
     protected void generateItems() {
-        cards = CardGenerator.convertToCards(CardGenerator.generateHard());
-        for (int i = 0; i < 16; i++) {
+        cards = CardGenerator.convertToCards(CardGenerator.generateEasy());
+        for (int i = 0; i < 6; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
+            imageViews.get(i).setEnabled(true);
         }
     }
 
