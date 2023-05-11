@@ -16,10 +16,10 @@ public class CardGenerator {
 
         int size = 6;
 
-        // Generate unique random numbers for the first half of the list
-        for (int i = 0; i < size / 2; i++) {
+        while(list.size() < (size/2)){
             int number = random.nextInt(8);
-            list.add(number);
+            if(!list.contains(number))
+                list.add(number);
         }
 
         // Create a separate list to store the duplicates
@@ -45,10 +45,10 @@ public class CardGenerator {
 
         int size = 12;
 
-        // Generate unique random numbers for the first half of the list
-        for (int i = 0; i < size / 2; i++) {
+        while(list.size() < (size/2)){
             int number = random.nextInt(8);
-            list.add(number);
+            if(!list.contains(number))
+                list.add(number);
         }
 
         // Create a separate list to store the duplicates
@@ -74,10 +74,10 @@ public class CardGenerator {
 
         int size = 16;
 
-        // Generate unique random numbers for the first half of the list
-        for (int i = 0; i < size / 2; i++) {
+        while(list.size() < (size/2)){
             int number = random.nextInt(8);
-            list.add(number);
+            if(!list.contains(number))
+                list.add(number);
         }
 
         // Create a separate list to store the duplicates
