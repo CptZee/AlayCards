@@ -71,7 +71,7 @@ public class ScoreHelper extends SQLiteOpenHelper {
     public List<Score> get(){
         List<Score> list = new ArrayList<>();
         try{
-            Cursor cursor = dbr.rawQuery("SELECT ID, fullName, email, type, credentialID FROM " + TABLENAME + " WHERE archived = 0",
+            Cursor cursor = dbr.rawQuery("SELECT ID, difficulty, date, remainingTime FROM " + TABLENAME + " WHERE archived = 0",
                     null);
             while (cursor.moveToNext())
                 list.add(prepareData(cursor));
@@ -85,7 +85,7 @@ public class ScoreHelper extends SQLiteOpenHelper {
     public Score get(int ID){
         Score data = null;
         try{
-            Cursor cursor = dbr.rawQuery("SELECT ID, fullName, email, type, credentialID FROM " + TABLENAME + " WHERE ID = " + ID,
+            Cursor cursor = dbr.rawQuery("SELECT ID, difficulty, date, remainingTime FROM " + TABLENAME + " WHERE ID = " + ID,
                     null);
             while (cursor.moveToNext())
                 data = prepareData(cursor);
