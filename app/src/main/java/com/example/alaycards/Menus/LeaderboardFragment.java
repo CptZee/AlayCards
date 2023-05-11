@@ -2,6 +2,7 @@ package com.example.alaycards.Menus;
 
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -40,30 +41,43 @@ public class LeaderboardFragment extends Fragment {
         TextView hard = view.findViewById(R.id.leaderboard_hard);
         indicator = view.findViewById(R.id.leaderboard_data_indicator);
         RecyclerView listView = view.findViewById(R.id.leaderboard_list);
+        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.fx_button);
 
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(new ScoreAdapter(loadEasy()));
         easy.setTypeface(null, Typeface.BOLD);
 
-        view.findViewById(R.id.leaderboard_return).setOnClickListener(v-> getActivity().onBackPressed());
+        view.findViewById(R.id.leaderboard_return).setOnClickListener(v-> {
+            player.start();
+            view.postDelayed(()-> getActivity().onBackPressed(), 150);
+        });
 
         easy.setOnClickListener(v->{
-            listView.setAdapter(new ScoreAdapter(loadEasy()));
-            easy.setTypeface(null, Typeface.BOLD);
-            normal.setTypeface(null, Typeface.NORMAL);
-            hard.setTypeface(null, Typeface.NORMAL);
+            player.start();
+            view.postDelayed(()->{
+                listView.setAdapter(new ScoreAdapter(loadEasy()));
+                easy.setTypeface(null, Typeface.BOLD);
+                normal.setTypeface(null, Typeface.NORMAL);
+                hard.setTypeface(null, Typeface.NORMAL);
+            }, 150);
         });
         normal.setOnClickListener(v->{
-            listView.setAdapter(new ScoreAdapter(loadNormal()));
-            easy.setTypeface(null, Typeface.NORMAL);
-            normal.setTypeface(null, Typeface.BOLD);
-            hard.setTypeface(null, Typeface.NORMAL);
+            player.start();
+            view.postDelayed(()->{
+                listView.setAdapter(new ScoreAdapter(loadNormal()));
+                easy.setTypeface(null, Typeface.NORMAL);
+                normal.setTypeface(null, Typeface.BOLD);
+                hard.setTypeface(null, Typeface.NORMAL);
+            }, 150);
         });
         hard.setOnClickListener(v->{
-            listView.setAdapter(new ScoreAdapter(loadHard()));
-            easy.setTypeface(null, Typeface.NORMAL);
-            normal.setTypeface(null, Typeface.NORMAL);
-            hard.setTypeface(null, Typeface.BOLD);
+            player.start();
+            view.postDelayed(()->{
+                listView.setAdapter(new ScoreAdapter(loadHard()));
+                easy.setTypeface(null, Typeface.NORMAL);
+                normal.setTypeface(null, Typeface.NORMAL);
+                hard.setTypeface(null, Typeface.BOLD);
+            }, 150);
         });
     }
 
