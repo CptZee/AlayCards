@@ -1,5 +1,6 @@
 package com.example.alaycards.Menus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.alaycards.R;
+import com.example.alaycards.Services.MenuMusicService;
 
 public class MainFragment extends Fragment {
     public MainFragment() {
@@ -17,6 +19,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        getActivity().startService(new Intent(getContext(), MenuMusicService.class));
+
         view.findViewById(R.id.main_exit).setOnClickListener(v-> getActivity().finish());
         view.findViewById(R.id.main_leaderboard).setOnClickListener( v->
                 getActivity().getSupportFragmentManager().beginTransaction()

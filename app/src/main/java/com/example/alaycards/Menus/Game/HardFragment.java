@@ -1,5 +1,6 @@
 package com.example.alaycards.Menus.Game;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.alaycards.Data.Enum.Difficulty;
 import com.example.alaycards.Data.Helper.ScoreHelper;
 import com.example.alaycards.Data.Score;
 import com.example.alaycards.R;
+import com.example.alaycards.Services.HardLevelMusicService;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
@@ -49,6 +51,8 @@ public class HardFragment extends EasyFragment {
         ImageView fourteen = view.findViewById(R.id.hard_14);
         ImageView fifteen = view.findViewById(R.id.hard_15);
         ImageView sixteen = view.findViewById(R.id.hard_16);
+
+        getActivity().startService(new Intent(getContext(), HardLevelMusicService.class));
 
         view.findViewById(R.id.hard_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.hard_complete).setOnClickListener(v -> finish(view));

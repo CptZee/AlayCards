@@ -1,5 +1,6 @@
 package com.example.alaycards.Menus.Game;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,6 +27,10 @@ import com.example.alaycards.Data.Helper.ScoreHelper;
 import com.example.alaycards.Data.Score;
 import com.example.alaycards.Menus.MainFragment;
 import com.example.alaycards.R;
+import com.example.alaycards.Services.EasyLevelMusicService;
+import com.example.alaycards.Services.HardLevelMusicService;
+import com.example.alaycards.Services.MenuMusicService;
+import com.example.alaycards.Services.NormalLevelMusicService;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -64,6 +69,9 @@ public class EasyFragment extends Fragment {
 
         if (this instanceof NormalFragment || this instanceof HardFragment)
             return;
+
+
+        getActivity().startService(new Intent(getContext(), EasyLevelMusicService.class));
 
         view.findViewById(R.id.easy_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.easy_complete).setOnClickListener(v -> finish(view));
@@ -125,6 +133,9 @@ public class EasyFragment extends Fragment {
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, new MainFragment(), "home")
                 .commit();
+        activity.stopService(new Intent(activity, EasyLevelMusicService.class));
+        activity.stopService(new Intent(activity, NormalLevelMusicService.class));
+        activity.stopService(new Intent(activity, HardLevelMusicService.class));
     }
 
     protected void generateItems() {

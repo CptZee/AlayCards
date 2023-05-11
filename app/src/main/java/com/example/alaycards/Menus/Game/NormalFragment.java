@@ -1,5 +1,6 @@
 package com.example.alaycards.Menus.Game;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.alaycards.Data.Enum.Difficulty;
 import com.example.alaycards.Data.Helper.ScoreHelper;
 import com.example.alaycards.Data.Score;
 import com.example.alaycards.R;
+import com.example.alaycards.Services.NormalLevelMusicService;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
@@ -45,6 +47,8 @@ public class NormalFragment extends EasyFragment {
         ImageView ten = view.findViewById(R.id.normal_10);
         ImageView eleven = view.findViewById(R.id.normal_11);
         ImageView twelve = view.findViewById(R.id.normal_12);
+
+        getActivity().startService(new Intent(getContext(), NormalLevelMusicService.class));
 
         view.findViewById(R.id.normal_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.normal_complete).setOnClickListener(v -> finish(view));
