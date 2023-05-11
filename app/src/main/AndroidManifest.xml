@@ -29,6 +29,17 @@
             android:name=".Services.MenuMusicService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".Services.EasyLevelMusicService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".Services.NormalLevelMusicService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".Services.HardLevelMusicService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
-
 </manifest>
