@@ -3,12 +3,20 @@ package com.example.alaycards.Services;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
 
 import com.example.alaycards.R;
 
 public class NormalLevelMusicService extends Service {
     private MediaPlayer mediaPlayer;
+    private final IBinder binder = new MusicServiceBinder();
+
+    public class MusicServiceBinder extends Binder {
+        NormalLevelMusicService getService() {
+            return NormalLevelMusicService.this;
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -37,5 +45,17 @@ public class NormalLevelMusicService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    public void pausePlayback() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    public void resumePlayback() {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
     }
 }
