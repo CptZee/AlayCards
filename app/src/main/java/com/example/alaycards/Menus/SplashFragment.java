@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.alaycards.Data.Helper.ScoreHelper;
-import com.example.alaycards.Data.Score;
 import com.example.alaycards.R;
 
 public class SplashFragment extends Fragment {
