@@ -40,12 +40,8 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment instanceof MainFragment) {
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit the application?")
-                    .setPositiveButton("Yes", (ignore, ignore2) -> {
-                        finish();
-                    })
-                    .setNegativeButton("No", (ignore, ignore2) ->{
-
-                    })
+                    .setPositiveButton("Yes", (ignore, ignore2) -> finish())
+                    .setNegativeButton("No", (ignore, ignore2) ->{})
                     .create()
                     .show();
         } else
