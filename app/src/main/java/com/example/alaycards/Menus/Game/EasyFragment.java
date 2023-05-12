@@ -11,6 +11,7 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -111,6 +112,7 @@ public class EasyFragment extends Fragment {
                     return;
                 if (selectedItem == card)
                     return;
+                card.animate().rotationYBy(180).setDuration(150);
                 MediaPlayer.create(getContext(), R.raw.fx_card).start();
                 card.postDelayed(() -> {
                     card.setImageResource(cards.get(finalI));
@@ -135,7 +137,7 @@ public class EasyFragment extends Fragment {
 
     protected static void returnToMenu(AppCompatActivity activity, View view) {
         MediaPlayer.create(activity, R.raw.fx_button).start();
-        view.postDelayed(()->{
+        view.postDelayed(() -> {
             activity.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_container, new MainFragment(), "home")
                     .commit();
@@ -150,6 +152,10 @@ public class EasyFragment extends Fragment {
         for (int i = 0; i < 6; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
             imageViews.get(i).setEnabled(true);
+            if(imageViews.get(i).getRotationY() == 180)
+                imageViews.get(i).animate().rotationYBy(180).setDuration(0).start();
+            validating = false;
+            selectedItem = null;
         }
     }
 
@@ -161,7 +167,7 @@ public class EasyFragment extends Fragment {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
-                if(seconds <= 15)
+                if (seconds <= 15)
                     timer.setTextColor(Color.parseColor("#FF0000"));
             }
 
@@ -186,7 +192,6 @@ public class EasyFragment extends Fragment {
             Drawable drawable = toCompare.getDrawable();
             Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
             if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
-                Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
                 if (isFinished()) {
@@ -195,11 +200,16 @@ public class EasyFragment extends Fragment {
                     showVictoryDialog();
                 }
             } else {
+                toCompare.animate().rotationYBy(180).setDuration(150).withEndAction(() ->
+                        toCompare.setRotation(0));
+                selectedItem.animate().rotationYBy(180).setDuration(150).withEndAction(() -> {
+                    selectedItem.setRotation(0);
+                    selectedItem = null;
+                    validating = false;
+                });
                 toCompare.setImageResource(R.drawable.card);
                 selectedItem.setImageResource(R.drawable.card);
             }
-            selectedItem = null;
-            validating = false;
         }, 750);
     }
 

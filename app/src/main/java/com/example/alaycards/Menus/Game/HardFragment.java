@@ -10,6 +10,7 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -101,6 +102,7 @@ public class HardFragment extends EasyFragment {
                     return;
                 if(selectedItem == card)
                     return;
+                card.animate().rotationYBy(180).setDuration(150);
                 MediaPlayer.create(getContext(), R.raw.fx_card).start();
                 card.postDelayed(()->{
                     card.setImageResource(cards.get(finalI));
@@ -132,20 +134,29 @@ public class HardFragment extends EasyFragment {
                     showVictoryDialog();
                 }
             } else {
+                toCompare.animate().rotationYBy(180).setDuration(150).withEndAction(() ->
+                        toCompare.setRotation(0));
+                selectedItem.animate().rotationYBy(180).setDuration(150).withEndAction(() -> {
+                    selectedItem.setRotation(0);
+                    selectedItem = null;
+                    validating = false;
+                });
                 toCompare.setImageResource(R.drawable.card);
                 selectedItem.setImageResource(R.drawable.card);
             }
-            selectedItem = null;
-            validating = false;
         }, 750);
     }
 
     @Override
     protected void generateItems() {
-        cards = CardGenerator.convertToCards(CardGenerator.generateEasy());
+        cards = CardGenerator.convertToCards(CardGenerator.generateHard());
         for (int i = 0; i < 16; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
             imageViews.get(i).setEnabled(true);
+            if(imageViews.get(i).getRotationY() == 180)
+                imageViews.get(i).animate().rotationYBy(180).setDuration(0).start();
+            validating = false;
+            selectedItem = null;
         }
     }
 
