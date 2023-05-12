@@ -127,8 +127,12 @@ public class HardFragment extends EasyFragment {
                 Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
+                selectedItem = null;
+                validating = false;
                 if (isFinished()) {
-                    view.findViewById(R.id.hard_complete).setVisibility(View.VISIBLE);
+                    view.postDelayed(()->
+                                    view.findViewById(R.id.hard_complete).setVisibility(View.VISIBLE)
+                            , 300);
                     countDownTimer.cancel();
                     showVictoryDialog();
                 }
@@ -168,8 +172,10 @@ public class HardFragment extends EasyFragment {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
-                if(seconds <= 15)
+                if(seconds <= 15){
+                    MediaPlayer.create(getContext(), R.raw.fx_clock).start();
                     timer.setTextColor(Color.parseColor("#FF0000"));
+                }
             }
 
             @Override

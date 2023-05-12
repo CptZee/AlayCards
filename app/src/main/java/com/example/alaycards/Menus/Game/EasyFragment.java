@@ -150,7 +150,7 @@ public class EasyFragment extends Fragment {
         for (int i = 0; i < 6; i++) {
             imageViews.get(i).setImageResource(R.drawable.card);
             imageViews.get(i).setEnabled(true);
-            if(imageViews.get(i).getRotationY() == 180)
+            if (imageViews.get(i).getRotationY() == 180)
                 imageViews.get(i).animate().rotationYBy(180).setDuration(0).start();
             validating = false;
             selectedItem = null;
@@ -165,8 +165,10 @@ public class EasyFragment extends Fragment {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
-                if (seconds <= 15)
+                if (seconds <= 15 && minutes < 1) {
+                    MediaPlayer.create(getContext(), R.raw.fx_clock).start();
                     timer.setTextColor(Color.parseColor("#FF0000"));
+                }
             }
 
             @Override
@@ -192,10 +194,14 @@ public class EasyFragment extends Fragment {
             if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
+                selectedItem = null;
+                validating = false;
                 if (isFinished()) {
-                    view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE);
                     countDownTimer.cancel();
                     showVictoryDialog();
+                    view.postDelayed(()->
+                            view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE)
+                            , 300);
                 }
             } else {
                 toCompare.animate().rotationYBy(180).setDuration(150).withEndAction(() ->
@@ -245,7 +251,7 @@ public class EasyFragment extends Fragment {
     @SuppressLint("ResourceAsColor")
     protected void showGameOverDialog() {
         MediaPlayer.create(getContext(), R.raw.fx_lose).start();
-        new AlertDialog.Builder(getContext())
+        getView().postDelayed(() -> new AlertDialog.Builder(getContext())
                 .setMessage("GAME OVER!")
                 .setPositiveButton("Try Again", (ignore, ignore2) -> {
                     timer.setTextColor(R.color.black);
@@ -255,12 +261,12 @@ public class EasyFragment extends Fragment {
                 .setNegativeButton("Back to Main Menu", (ignore, ignore2) ->
                         EasyFragment.returnToMenu((AppCompatActivity) getActivity(), getView()))
                 .create()
-                .show();
+                .show(), 300);
     }
 
     protected void showVictoryDialog() {
         MediaPlayer.create(getContext(), R.raw.fx_win).start();
-        new AlertDialog.Builder(getContext())
+        getView().postDelayed(() -> new AlertDialog.Builder(getContext())
                 .setMessage("YOU WON!")
                 .setPositiveButton("Back to Main Menu", (ignore, ignore2) ->
                         finish(getView())
@@ -268,6 +274,6 @@ public class EasyFragment extends Fragment {
                 .setNegativeButton("Continue", (ignore, ignore2) -> {
                 })
                 .create()
-                .show();
+                .show(), 300);
     }
 }
