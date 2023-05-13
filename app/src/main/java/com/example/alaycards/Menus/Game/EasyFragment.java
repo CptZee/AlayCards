@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.alaycards.Data.Enum.Difficulty;
@@ -35,6 +36,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,6 +58,7 @@ public class EasyFragment extends Fragment {
     protected List<Integer> cards;
     protected boolean validating = false;
     protected final List<ImageView> imageViews = new ArrayList<>();
+    protected final HashMap<ImageView, ImageView> set = new HashMap<>();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -72,6 +75,14 @@ public class EasyFragment extends Fragment {
 
 
         getActivity().startService(new Intent(getContext(), EasyLevelMusicService.class));
+        SwitchCompat music = view.findViewById(R.id.easy_music);
+        music.setOnCheckedChangeListener((ignored1, on) -> {
+            if (on)
+                new EasyLevelMusicService().resumePlayback();
+            else
+                new EasyLevelMusicService().pausePlayback();
+        });
+
 
         view.findViewById(R.id.easy_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.easy_complete).setOnClickListener(v -> finish(view));
@@ -199,8 +210,8 @@ public class EasyFragment extends Fragment {
                 if (isFinished()) {
                     countDownTimer.cancel();
                     showVictoryDialog();
-                    view.postDelayed(()->
-                            view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE)
+                    view.postDelayed(() ->
+                                    view.findViewById(R.id.easy_complete).setVisibility(View.VISIBLE)
                             , 300);
                 }
             } else {

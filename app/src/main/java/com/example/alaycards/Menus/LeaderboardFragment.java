@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,9 @@ public class LeaderboardFragment extends Fragment {
         final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.fx_button);
 
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.setAdapter(new ScoreAdapter(loadEasy()));
+        List<Score> list = loadEasy();
+        Log.i("Leaderboard Helper", "Current size of data is: " + list.size());
+        listView.setAdapter(new ScoreAdapter(list));
         easy.setTypeface(null, Typeface.BOLD);
 
         view.findViewById(R.id.leaderboard_return).setOnClickListener(v-> {
@@ -93,6 +96,7 @@ public class LeaderboardFragment extends Fragment {
         }else
             indicator.setVisibility(View.INVISIBLE);
         sortList();
+        Log.i("Leaderboard Helper", "Current size of data is: " + list.size());
         return list;
     }
 
@@ -108,6 +112,7 @@ public class LeaderboardFragment extends Fragment {
         }else
             indicator.setVisibility(View.INVISIBLE);
         sortList();
+        Log.i("Leaderboard Helper", "Current size of data is: " + list.size());
         return list;
     }
 
@@ -123,6 +128,7 @@ public class LeaderboardFragment extends Fragment {
         }else
             indicator.setVisibility(View.INVISIBLE);
         sortList();
+        Log.i("Leaderboard Helper", "Current size of data is: " + list.size());
         return list;
     }
 
