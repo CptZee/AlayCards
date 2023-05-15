@@ -17,11 +17,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.alaycards.Data.Enum.Difficulty;
 import com.example.alaycards.Data.Helper.ScoreHelper;
 import com.example.alaycards.Data.Score;
 import com.example.alaycards.R;
+import com.example.alaycards.Services.HardLevelMusicService;
 import com.example.alaycards.Services.NormalLevelMusicService;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -50,6 +52,14 @@ public class NormalFragment extends EasyFragment {
         ImageView twelve = view.findViewById(R.id.normal_12);
 
         getActivity().startService(new Intent(getContext(), NormalLevelMusicService.class));
+        music = view.findViewById(R.id.normal_music);
+        music.setOnCheckedChangeListener((ignored1, on) -> {
+            if (on)
+                getActivity().startService(new Intent(getContext(), NormalLevelMusicService.class));
+            else
+                getActivity().stopService(new Intent(getContext(), NormalLevelMusicService.class));
+        });
+        music.setChecked(preferences.getBoolean("music", true));
 
         view.findViewById(R.id.normal_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.normal_complete).setOnClickListener(v -> finish(view));
@@ -63,7 +73,6 @@ public class NormalFragment extends EasyFragment {
         );
         //Countdown code
         timer = view.findViewById(R.id.normal_timer);
-        startCountdown();
 
         //Code for the cards
         imageViews.add(one);
@@ -119,6 +128,9 @@ public class NormalFragment extends EasyFragment {
             validating = false;
             selectedItem = null;
         }
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+        startCountdown();
     }
 
     @Override

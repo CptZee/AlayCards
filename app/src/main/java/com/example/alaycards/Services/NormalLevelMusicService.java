@@ -10,13 +10,6 @@ import com.example.alaycards.R;
 
 public class NormalLevelMusicService extends Service {
     private MediaPlayer mediaPlayer;
-    private final IBinder binder = new MusicServiceBinder();
-
-    public class MusicServiceBinder extends Binder {
-        NormalLevelMusicService getService() {
-            return NormalLevelMusicService.this;
-        }
-    }
 
     @Override
     public void onCreate() {
@@ -45,17 +38,5 @@ public class NormalLevelMusicService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    public void pausePlayback() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-        }
-    }
-
-    public void resumePlayback() {
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
-        }
     }
 }

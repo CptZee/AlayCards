@@ -1,7 +1,9 @@
 package com.example.alaycards.Menus.Game;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -58,11 +60,17 @@ public class EasyFragment extends Fragment {
     protected List<Integer> cards;
     protected boolean validating = false;
     protected final List<ImageView> imageViews = new ArrayList<>();
-    protected final HashMap<ImageView, ImageView> set = new HashMap<>();
+    protected SwitchCompat music;
+    protected SharedPreferences preferences;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferences = getActivity().getSharedPreferences("AlayCards", Context.MODE_PRIVATE);
+
+        if (this instanceof NormalFragment || this instanceof HardFragment)
+            return;
+
         ImageView one = view.findViewById(R.id.easy_1);
         ImageView two = view.findViewById(R.id.easy_2);
         ImageView three = view.findViewById(R.id.easy_3);
@@ -70,18 +78,14 @@ public class EasyFragment extends Fragment {
         ImageView five = view.findViewById(R.id.easy_5);
         ImageView six = view.findViewById(R.id.easy_6);
 
-        if (this instanceof NormalFragment || this instanceof HardFragment)
-            return;
-
-
-        getActivity().startService(new Intent(getContext(), EasyLevelMusicService.class));
-        SwitchCompat music = view.findViewById(R.id.easy_music);
+        music = view.findViewById(R.id.easy_music);
         music.setOnCheckedChangeListener((ignored1, on) -> {
             if (on)
-                new EasyLevelMusicService().resumePlayback();
+                getActivity().startService(new Intent(getContext(), EasyLevelMusicService.class));
             else
-                new EasyLevelMusicService().pausePlayback();
+                getActivity().stopService(new Intent(getContext(), EasyLevelMusicService.class));
         });
+        music.setChecked(preferences.getBoolean("music", true));
 
 
         view.findViewById(R.id.easy_complete).setVisibility(View.INVISIBLE);
@@ -97,7 +101,6 @@ public class EasyFragment extends Fragment {
 
         //Countdown code
         timer = view.findViewById(R.id.easy_timer);
-        startCountdown();
 
         //Code for the cards
         imageViews.add(one);
@@ -137,11 +140,16 @@ public class EasyFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("music", music.isChecked());
+
+        editor.apply();
+
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+        super.onPause();
     }
 
     protected static void returnToMenu(AppCompatActivity activity, View view) {
@@ -166,6 +174,9 @@ public class EasyFragment extends Fragment {
             validating = false;
             selectedItem = null;
         }
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+        startCountdown();
     }
 
     protected void startCountdown() {
@@ -267,7 +278,6 @@ public class EasyFragment extends Fragment {
                 .setPositiveButton("Try Again", (ignore, ignore2) -> {
                     timer.setTextColor(R.color.black);
                     generateItems();
-                    startCountdown();
                 })
                 .setNegativeButton("Back to Main Menu", (ignore, ignore2) ->
                         EasyFragment.returnToMenu((AppCompatActivity) getActivity(), getView()))

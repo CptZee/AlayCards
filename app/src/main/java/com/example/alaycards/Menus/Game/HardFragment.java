@@ -17,11 +17,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.alaycards.Data.Enum.Difficulty;
 import com.example.alaycards.Data.Helper.ScoreHelper;
 import com.example.alaycards.Data.Score;
 import com.example.alaycards.R;
+import com.example.alaycards.Services.EasyLevelMusicService;
 import com.example.alaycards.Services.HardLevelMusicService;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -54,6 +56,14 @@ public class HardFragment extends EasyFragment {
         ImageView sixteen = view.findViewById(R.id.hard_16);
 
         getActivity().startService(new Intent(getContext(), HardLevelMusicService.class));
+        music = view.findViewById(R.id.hard_music);
+        music.setOnCheckedChangeListener((ignored1, on) -> {
+            if (on)
+                getActivity().startService(new Intent(getContext(), HardLevelMusicService.class));
+            else
+                getActivity().stopService(new Intent(getContext(), HardLevelMusicService.class));
+        });
+        music.setChecked(preferences.getBoolean("music", true));
 
         view.findViewById(R.id.hard_complete).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.hard_complete).setOnClickListener(v -> finish(view));
@@ -67,7 +77,6 @@ public class HardFragment extends EasyFragment {
         );
         //Countdown code
         timer = view.findViewById(R.id.hard_timer);
-        startCountdown();
 
         //Code for the cards
         imageViews.add(one);
@@ -161,18 +170,21 @@ public class HardFragment extends EasyFragment {
             validating = false;
             selectedItem = null;
         }
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+        startCountdown();
     }
 
     @Override
     protected void startCountdown() {
-        countDownTimer = new CountDownTimer(1 * 60 * 1000, 1000) {
+        countDownTimer = new CountDownTimer(3 * 30 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 int minutes = (int) (millisUntilFinished / 1000) / 60;
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 timer.setText(timeLeftFormatted);
-                if(seconds <= 15){
+                if(seconds <= 30){
                     MediaPlayer.create(getContext(), R.raw.fx_clock).start();
                     timer.setTextColor(Color.parseColor("#FF0000"));
                 }
