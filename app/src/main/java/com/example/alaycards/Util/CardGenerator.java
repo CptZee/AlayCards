@@ -1,4 +1,4 @@
-package com.example.alaycards.Menus.Game;
+package com.example.alaycards.Util;
 
 import android.util.Log;
 
