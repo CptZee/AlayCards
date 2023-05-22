@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/easy"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,7 +25,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Return" />
+            android:text="Return"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button"/>
 
         <Button
             android:id="@+id/easy_reset"
@@ -37,12 +40,14 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Reset" />
+            android:text="Reset"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button"/>
     </RelativeLayout>
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,22 +61,24 @@
 
             <ImageView
                 android:id="@+id/easy_1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
                 android:layout_marginHorizontal="4dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card" />
 
             <ImageView
                 android:id="@+id/easy_2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/easy_3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
         </TableRow>
 
@@ -81,23 +88,23 @@
 
             <ImageView
                 android:id="@+id/easy_4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/easy_5"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/easy_6"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
         </TableRow>
     </TableLayout>
@@ -107,7 +114,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Compelete"
+        android:text="Complete"
+        android:textColor="#f2eddb"
+        android:background="@drawable/primary_button"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="@+id/tableLayout"
         app:layout_constraintStart_toStartOf="@+id/tableLayout"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
@@ -119,6 +129,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="0:00"
+        android:background="@drawable/primary_item"
+        android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="@+id/tableLayout"
         app:layout_constraintStart_toStartOf="@+id/tableLayout" />
@@ -128,11 +140,13 @@
         style="@style/TextAppearance.AppCompat.Display2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:text="EASY"
+        android:textColor="#047054"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/easy_timer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/easy_music"
@@ -140,6 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Music "
+        android:textColor="#f2eddb"
         android:checked="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg"
+    android:background="@drawable/menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,21 +31,27 @@
             android:id="@+id/main_play"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="PLAY" />
+            android:text="PLAY"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button"/>
 
         <Button
             android:id="@+id/main_leaderboard"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="LEADERBOARD" />
+            android:text="LEADERBOARD"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button" />
 
         <Button
             android:id="@+id/main_exit"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="EXIT" />
+            android:text="EXIT"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button" />
 
     </LinearLayout>
 

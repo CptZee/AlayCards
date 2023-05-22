@@ -171,7 +171,6 @@ public class NormalFragment extends EasyFragment {
             Drawable drawable = toCompare.getDrawable();
             Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
             if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
-                Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
                 selectedItem = null;
@@ -199,7 +198,7 @@ public class NormalFragment extends EasyFragment {
 
     @Override
     protected void finish(View view){
-        SpannableString completeMessage = new SpannableString("Hard level completed!");
+        SpannableString completeMessage = new SpannableString("Normal level completed!");
         completeMessage.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, completeMessage.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
         Score score = new Score();

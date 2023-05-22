@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/hard"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,7 +26,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Return" />
+            android:text="Return"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button" />
 
         <Button
             android:id="@+id/hard_reset"
@@ -38,7 +41,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Reset" />
+            android:text="Reset"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button" />
     </RelativeLayout>
 
     <TableLayout
@@ -51,35 +56,36 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp">
 
             <ImageView
                 android:id="@+id/hard_1"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_2"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_3"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_4"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
         </TableRow>
 
@@ -90,30 +96,30 @@
 
             <ImageView
                 android:id="@+id/hard_5"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_6"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_7"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_8"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
         </TableRow>
 
@@ -125,29 +131,30 @@
 
             <ImageView
                 android:id="@+id/hard_9"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_10"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_11"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_12"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="4dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
         </TableRow>
         <TableRow
@@ -156,30 +163,30 @@
 
             <ImageView
                 android:id="@+id/hard_13"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_14"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_15"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card"  />
 
             <ImageView
                 android:id="@+id/hard_16"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="8dp"
                 tools:srcCompat="@drawable/card" />
         </TableRow>
     </TableLayout>
@@ -189,7 +196,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Compelete"
+        android:text="Complete"
+        android:textColor="#f2eddb"
+        android:background="@drawable/primary_button"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="@+id/tableLayout"
         app:layout_constraintStart_toStartOf="@+id/tableLayout"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
@@ -201,6 +211,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="0:00"
+        android:background="@drawable/primary_item"
+        android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="@+id/tableLayout"
         app:layout_constraintStart_toStartOf="@+id/tableLayout" />
@@ -210,8 +222,10 @@
         style="@style/TextAppearance.AppCompat.Display2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="HARD"
+        android:textColor="#880808"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
         app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
         app:layout_constraintTop_toTopOf="@+id/relativeLayout2" />

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,28 +19,36 @@
             android:id="@+id/difficulty_easy"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="EASY" />
+            android:text="EASY"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button"/>
 
         <Button
             android:id="@+id/difficulty_normal"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="NORMAL" />
+            android:text="NORMAL"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button"/>
 
         <Button
             android:id="@+id/difficulty_hard"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="HARD" />
+            android:text="HARD"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button" />
 
         <Button
             android:id="@+id/difficulty_return"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="RETURN" />
+            android:text="RETURN"
+            android:textColor="#f2eddb"
+            android:background="@drawable/primary_button" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

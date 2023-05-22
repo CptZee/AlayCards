@@ -134,7 +134,6 @@ public class HardFragment extends EasyFragment {
             Drawable drawable = toCompare.getDrawable();
             Drawable originalDrawable = getResources().getDrawable(selectedItemDrawableID);
             if (drawable.getConstantState().equals(originalDrawable.getConstantState())) {
-                Toast.makeText(getContext(), "Found a match!", Toast.LENGTH_SHORT).show();
                 toCompare.setEnabled(false);
                 selectedItem.setEnabled(false);
                 selectedItem = null;
