@@ -2,14 +2,12 @@ package com.example.alaycards;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.alaycards.Menus.MainFragment;
-import com.example.alaycards.Menus.SplashFragment;
 import com.example.alaycards.Services.EasyLevelMusicService;
 import com.example.alaycards.Services.HardLevelMusicService;
 import com.example.alaycards.Services.MenuMusicService;
@@ -23,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, new SplashFragment())
+                .replace(R.id.main_container, new MainFragment())
                 .commit();
     }
 
