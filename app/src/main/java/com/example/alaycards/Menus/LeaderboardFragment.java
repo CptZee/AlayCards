@@ -134,8 +134,8 @@ public class LeaderboardFragment extends Fragment {
 
     public void sortList(){
         @SuppressLint({"NewApi", "LocalSuppress"})
-        Comparator<Score> lowestIntegerComparator = Comparator.comparingInt(Score::getRemainingTime);
+        Comparator<Score> highestIntegerComparator  = Comparator.comparingInt(Score::getRemainingTime).reversed();
 
-        Collections.sort(list, lowestIntegerComparator);
+        Collections.sort(list, highestIntegerComparator );
     }
 }
